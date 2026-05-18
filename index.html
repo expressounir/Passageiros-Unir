@@ -73,6 +73,8 @@ tr.rsep td{height:10px;background:var(--bg)}
 footer{text-align:center;padding:18px 40px;font-size:10px;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.1);background:var(--hub-dark);margin-top:24px;letter-spacing:.5px}
 @media(max-width:768px){header,main,nav,.msel,footer{padding-left:14px;padding-right:14px}}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+
+.tooltip{position:absolute;background:#1A1D2E;color:#fff;font-size:11px;font-family:'Outfit',sans-serif;padding:5px 10px;border-radius:6px;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.3);display:none}
 </style>
 </head>
 <body>
@@ -212,7 +214,21 @@ function addObs(table,dates,obs){
     td.textContent=txt;
     if(txt){
       td.classList.add('o-fer');
-      td.title=txt;
+      td.addEventListener('mouseenter',function(e){
+        var tt=document.getElementById('tt');
+        tt.textContent=txt;
+        tt.style.display='block';
+        tt.style.left=(e.pageX - tt.offsetWidth/2)+'px';
+        tt.style.top=(e.pageY - tt.offsetHeight - 14)+'px';
+      });
+      td.addEventListener('mousemove',function(e){
+        var tt=document.getElementById('tt');
+        tt.style.left=(e.pageX - tt.offsetWidth/2)+'px';
+        tt.style.top=(e.pageY - tt.offsetHeight - 14)+'px';
+      });
+      td.addEventListener('mouseleave',function(){
+        document.getElementById('tt').style.display='none';
+      });
     }
     trObs.appendChild(td);
   });
@@ -275,16 +291,9 @@ function renderPorLinhas(){
 buildMesBtns();
 renderAcumulado();
 
-document.addEventListener('mousemove', function(e){
-  if(tip.style.display==='block'){
-    var x = e.clientX - tip.offsetWidth/2;
-    var y = e.clientY - tip.offsetHeight - 14;
-    tip.style.left = x + 'px';
-    tip.style.top  = y + 'px';
-  }
-});
 
 
 </script>
+<div class="tooltip" id="tt"></div>
 </body>
 </html>

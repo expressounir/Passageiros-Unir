@@ -84,7 +84,7 @@ footer{text-align:center;padding:18px 40px;font-size:10px;color:rgba(255,255,255
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <div class="mbadge" id="hbadge">Maio 2026</div>
-    <a href="https://avlbelisario.github.io/HUB-UNIR/" style="background:rgba(255,255,255,0.15);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:20px;text-decoration:none;letter-spacing:.5px;border:1px solid rgba(255,255,255,0.25)">← HUB</a>
+    <a href="https://expressounir.github.io/HUB-UNIR/" style="background:rgba(255,255,255,0.15);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:20px;text-decoration:none;letter-spacing:.5px;border:1px solid rgba(255,255,255,0.25)">← HUB</a>
   </div>
 </header>
 <nav>
@@ -203,7 +203,6 @@ function addDataRows(table,isFull,data,dates,obs){
 }
 
 function addObs(table,dates,obs){
-  // Só mostrar se há pelo menos um feriado no mês
   if(!dates.some(ds=>obs[ds])) return;
   const trObs=document.createElement('tr');trObs.className='robs';
   trObs.appendChild(mkTd('OBSERVAÇÕES','',true));
@@ -211,8 +210,10 @@ function addObs(table,dates,obs){
     const txt=obs[ds]||'';
     const td=document.createElement('td');
     td.textContent=txt;
-    td.title=txt;
-    if(txt) td.classList.add('o-fer');
+    if(txt){
+      td.classList.add('o-fer');
+      td.title=txt;
+    }
     trObs.appendChild(td);
   });
   trObs.appendChild(mkTd('','ctot'));table.appendChild(trObs);
@@ -270,8 +271,20 @@ function renderPorLinhas(){
   });
 }
 
+
 buildMesBtns();
 renderAcumulado();
+
+document.addEventListener('mousemove', function(e){
+  if(tip.style.display==='block'){
+    var x = e.clientX - tip.offsetWidth/2;
+    var y = e.clientY - tip.offsetHeight - 14;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  }
+});
+
+
 </script>
 </body>
 </html>
